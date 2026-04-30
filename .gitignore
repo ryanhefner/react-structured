@@ -1,0 +1,10 @@
+# Modules
+node_modules
+
+# Build / Test files
+coverage
+dist
+types
+
+# Misc
+.DS_Store

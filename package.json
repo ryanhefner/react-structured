@@ -1,0 +1,125 @@
+{
+  "name": "react-structured",
+  "version": "0.1.0",
+  "description": "Type-safe React components for Schema.org JSON-LD structured data, rich results, and @graph documents.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryanhefner/react-structured.git"
+  },
+  "author": "Ryan Hefner <hi@ryanhefner.com> (https://www.ryanhefner.com)",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ryanhefner/react-structured/issues"
+  },
+  "homepage": "https://github.com/ryanhefner/react-structured#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/ryanhefner"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/ryanhefner"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/ryanhefner"
+    }
+  ],
+  "keywords": [
+    "react",
+    "json-ld",
+    "jsonld",
+    "ld-json",
+    "react-json-ld",
+    "schema.org",
+    "schema-org",
+    "schema",
+    "schema-dts",
+    "structured-data",
+    "rich-results",
+    "google-rich-results",
+    "google-search",
+    "seo",
+    "metadata",
+    "next",
+    "nextjs",
+    "app-router",
+    "typescript"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "!src/**/*.test.*",
+    "types",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist types coverage",
+    "build": "npm run clean && rollup -c --bundleConfigAsCjs && tsc -p tsconfig.json",
+    "dev": "rollup -c --bundleConfigAsCjs --watch",
+    "lint": "eslint .",
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.typecheck.json"
+  },
+  "peerDependencies": {
+    "react": ">=16.8"
+  },
+  "dependencies": {
+    "schema-dts": "^1.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/eslint-parser": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/parser": "^8.50.0",
+    "@vitest/coverage-v8": "^4.0.16",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "jsdom": "^27.3.0",
+    "prettier": "^3.7.4",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "rimraf": "^6.1.2",
+    "rollup": "^4.53.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.16"
+  },
+  "packageManager": "npm@11.12.1"
+}
