@@ -86,7 +86,7 @@
     "react": ">=16.8"
   },
   "dependencies": {
-    "schema-dts": "^1.1.5"
+    "schema-dts": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
