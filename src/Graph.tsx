@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement } from 'react'
 
 import type { Graph as SchemaDtsGraph } from 'schema-dts'
 
@@ -52,7 +52,7 @@ export const Graph = ({
   nonce,
   scriptKey,
   validate = true,
-}: GraphProps): React.ReactElement => {
+}: GraphProps): ReactElement => {
   const graphData: SchemaDtsGraph = {
     '@context': 'https://schema.org',
     '@graph': data['@graph'],

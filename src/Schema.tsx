@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement } from 'react'
 
 import type { Thing, WithContext } from 'schema-dts'
 
@@ -79,7 +79,7 @@ export const Schema = <T extends SchemaType = SchemaType>({
   nonce,
   scriptKey,
   validate = true,
-}: SchemaProps<T>): React.ReactElement => {
+}: SchemaProps<T>): ReactElement => {
   // The component owns top-level JSON-LD metadata even if plain JS callers pass it.
   const dataObj = data as unknown as Record<string, unknown>
   const {

@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 
 import { afterEach, describe, expect, test } from 'vitest'
 
@@ -10,7 +10,7 @@ import type { SchemaData } from './types'
 const renderOptions = {
   baseElement: document.documentElement,
   container: document.head,
-  wrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  wrapper: ({ children }: { children: ReactNode }) => <>{children}</>,
 }
 
 describe('Schema', () => {

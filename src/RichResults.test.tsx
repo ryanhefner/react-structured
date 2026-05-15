@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 
 import { afterEach, describe, expect, test } from 'vitest'
 
@@ -15,7 +15,7 @@ import {
 const renderOptions = {
   baseElement: document.documentElement,
   container: document.head,
-  wrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  wrapper: ({ children }: { children: ReactNode }) => <>{children}</>,
 }
 
 const getJsonLd = () => {

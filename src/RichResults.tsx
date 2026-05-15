@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement } from 'react'
 
 import type { JsonLdScriptProps } from './JsonLdScript'
 import { Schema } from './Schema'
@@ -33,34 +33,34 @@ export const ArticleJsonLd = <T extends ArticleJsonLdType = 'Article'>({
   type,
   data,
   ...scriptProps
-}: ArticleJsonLdProps<T>): React.ReactElement => (
+}: ArticleJsonLdProps<T>): ReactElement => (
   <Schema type={(type ?? 'Article') as T} data={data} {...scriptProps} />
 )
 
 export const BreadcrumbJsonLd = ({
   data,
   ...scriptProps
-}: BreadcrumbJsonLdProps): React.ReactElement => (
+}: BreadcrumbJsonLdProps): ReactElement => (
   <Schema type="BreadcrumbList" data={data} {...scriptProps} />
 )
 
 export const FAQJsonLd = ({
   data,
   ...scriptProps
-}: FAQJsonLdProps): React.ReactElement => (
+}: FAQJsonLdProps): ReactElement => (
   <Schema type="FAQPage" data={data} {...scriptProps} />
 )
 
 export const OrganizationJsonLd = ({
   data,
   ...scriptProps
-}: OrganizationJsonLdProps): React.ReactElement => (
+}: OrganizationJsonLdProps): ReactElement => (
   <Schema type="Organization" data={data} {...scriptProps} />
 )
 
 export const ProductJsonLd = ({
   data,
   ...scriptProps
-}: ProductJsonLdProps): React.ReactElement => (
+}: ProductJsonLdProps): ReactElement => (
   <Schema type="Product" data={data} {...scriptProps} />
 )
