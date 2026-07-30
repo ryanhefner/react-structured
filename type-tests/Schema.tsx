@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Graph } from '../src/Graph'
 import { JsonLd } from '../src/JsonLdScript'
 import { BreadcrumbJsonLd, FAQJsonLd, ProductJsonLd } from '../src/RichResults'

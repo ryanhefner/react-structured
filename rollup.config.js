@@ -27,7 +27,7 @@ const plugins = [
     babelHelpers: 'bundled',
     presets: [
       ['@babel/preset-env', { modules: false }],
-      '@babel/preset-react',
+      ['@babel/preset-react', { runtime: 'automatic' }],
       '@babel/preset-typescript',
     ],
   }),
@@ -48,7 +48,7 @@ export default [
         format: 'cjs',
       },
     ],
-    external: ['schema-dts'],
+    external: ['react', 'react/jsx-runtime', 'schema-dts'],
     plugins,
   },
 ]

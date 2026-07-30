@@ -1,4 +1,4 @@
-import React from 'react'
+import type { Key, ReactElement } from 'react'
 
 import { serializeJsonLd } from './jsonLd'
 import type { JsonLdData } from './types'
@@ -19,7 +19,7 @@ export interface JsonLdScriptProps {
    * React reserves the `key` prop for the component instance, so use
    * scriptKey when the underlying script element itself needs a key.
    */
-  scriptKey?: React.Key
+  scriptKey?: Key
 }
 
 export interface JsonLdProps extends JsonLdScriptProps {
@@ -43,7 +43,7 @@ export const JsonLd = ({
   nonce,
   scriptKey,
   validate = true,
-}: JsonLdProps): React.ReactElement => {
+}: JsonLdProps): ReactElement => {
   warnGoogleRichResultIssues(data, { component: 'JsonLd', validate })
 
   return (

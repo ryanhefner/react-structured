@@ -3,6 +3,7 @@
   "include": ["src/**/*", "type-tests/**/*"],
   "exclude": ["node_modules", "dist", "types"],
   "compilerOptions": {
+    "rootDir": ".",
     "noEmit": true
   }
 }
