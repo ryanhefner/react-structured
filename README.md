@@ -213,9 +213,14 @@ const bookData = {
 
 This keeps the components flexible while preserving type safety for Schema.org types represented by `schema-dts`.
 
-## react-structured vs next-seo
+## How It Fits with next-meta and next-seo
 
 `react-structured` is not a full SEO/meta-tag framework. It focuses on type-safe JSON-LD structured data.
+
+Use [`next-meta`](https://github.com/ryanhefner/next-meta) for titles, canonical
+URLs, Open Graph metadata, and social cards. Use `react-structured` alongside it
+for Schema.org JSON-LD. The packages remain independent, and their combined peer
+dependency range requires React 16.14 or newer.
 
 Use `react-structured` when you want:
 
@@ -224,18 +229,39 @@ Use `react-structured` when you want:
 - Direct control over JSON-LD data and `@graph` relationships
 - Structured data in React, Vite, Remix, Astro islands, Next.js, or another React environment
 
-Use `next-seo` when you want a broader Next.js SEO toolkit for title tags, canonical URLs, robots tags, Open Graph, Twitter cards, and curated JSON-LD helpers in one package.
+Current `next-seo` releases also focus on JSON-LD and direct users to Next.js's
+native Metadata API for standard metadata. Choose `react-structured` when you
+prefer exhaustive `schema-dts` coverage and framework-independent components;
+choose `next-seo` when its curated JSON-LD component API better matches the
+project. Avoid rendering the same entity through both JSON-LD libraries on one
+page.
 
 ## Component API
 
 All rendering components accept these script options:
 
-- `id`: `id` attribute for the rendered script tag
+- `id`: `id` attribute for the rendered script tag. Use a stable,
+  document-unique value for inspection and testing.
 - `nonce`: CSP nonce attribute
 - `scriptKey`: React key applied to the rendered script tag
 - `validate`: Enables development-time Google rich-result warnings. Defaults to `true`.
 
 React reserves the `key` prop for the component instance. Use React's `key` normally when rendering lists of components, and use `scriptKey` only when the underlying `<script>` element needs its own key.
+
+Pass a nonce directly when the application's Content Security Policy requires
+one:
+
+```tsx
+<Schema
+  id="organization-jsonld"
+  nonce={nonce}
+  type="Organization"
+  data={{ name: 'Example Organization' }}
+/>
+```
+
+The `id` provides stable DOM identity but does not deduplicate scripts by itself.
+Render each entity once and keep IDs unique within the document.
 
 ### Schema
 
@@ -298,14 +324,30 @@ They preserve the same `schema-dts` data shape while making intent clearer. In d
 
 ```tsx
 // app/products/[slug]/page.tsx
+import type { Metadata } from 'next'
 import { ProductJsonLd } from 'react-structured'
+
+const PRODUCT_URL = 'https://example.com/products/example'
+const PRODUCT_IMAGE = 'https://example.com/products/example/social.jpg'
+
+export const metadata: Metadata = {
+  title: 'Product Name',
+  alternates: { canonical: PRODUCT_URL },
+  openGraph: {
+    url: PRODUCT_URL,
+    images: [PRODUCT_IMAGE],
+  },
+}
 
 export default function ProductPage() {
   return (
     <>
       <ProductJsonLd
+        id="product-jsonld"
         data={{
           name: 'Product Name',
+          image: PRODUCT_IMAGE,
+          url: PRODUCT_URL,
           offers: {
             '@type': 'Offer',
             price: '29.99',
@@ -319,28 +361,48 @@ export default function ProductPage() {
 }
 ```
 
+Next.js recommends rendering JSON-LD scripts in a page or layout component.
+JSON-LD is not part of the native Metadata object. Reuse the same absolute
+canonical and media URLs in both outputs so they cannot disagree.
+
 ### Pages Router
+
+When using next-meta, render its metadata component and the structured-data
+component as siblings. Do not nest a react-structured component inside
+`PageMeta` or `next/head`: Next.js requires scripts inside `Head` to be direct
+children, and JSON-LD is valid in the document body.
 
 ```tsx
 // pages/products/[slug].tsx
-import Head from 'next/head'
+import { PageMeta } from 'next-meta'
 import { ProductJsonLd } from 'react-structured'
 
-export default function ProductPage() {
+const PRODUCT_URL = 'https://example.com/products/example'
+const PRODUCT_IMAGE = 'https://example.com/products/example/social.jpg'
+
+export default function ProductPage({ nonce }) {
   return (
     <>
-      <Head>
-        <ProductJsonLd
-          data={{
-            name: 'Product Name',
-            offers: {
-              '@type': 'Offer',
-              price: '29.99',
-              priceCurrency: 'USD',
-            },
-          }}
-        />
-      </Head>
+      <PageMeta
+        title="Product Name"
+        canonical={PRODUCT_URL}
+        url={PRODUCT_URL}
+        images={[{ url: PRODUCT_IMAGE }]}
+      />
+      <ProductJsonLd
+        id="product-jsonld"
+        nonce={nonce}
+        data={{
+          name: 'Product Name',
+          image: PRODUCT_IMAGE,
+          url: PRODUCT_URL,
+          offers: {
+            '@type': 'Offer',
+            price: '29.99',
+            priceCurrency: 'USD',
+          },
+        }}
+      />
       <main>{/* page content */}</main>
     </>
   )
