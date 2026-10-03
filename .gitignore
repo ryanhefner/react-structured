@@ -5,6 +5,13 @@ node_modules
 coverage
 dist
 types
+.next
+out
+*.tsbuildinfo
+**/.yalc
+**/yalc.lock
 
 # Misc
 .DS_Store
+.env*
+!.env.example
