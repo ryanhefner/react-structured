@@ -70,7 +70,7 @@ const projects = [
 export function WithOssPage() {
   const styles = useSlotRecipe({ key: 'siteWithOss' })()
   return (
-    <Container as="main" css={styles.root}>
+    <Container css={styles.root}>
       <Flex css={styles.hero}>
         <Heading
           as="h1"

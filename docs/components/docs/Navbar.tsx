@@ -42,7 +42,7 @@ export function Navbar({ records }: { records: readonly DocsSearchRecord[] }) {
                   css={styles.githubTrigger}
                 >
                   <SiteLink href="https://github.com/ryanhefner/react-structured">
-                    <SiGithub />
+                    <SiGithub aria-hidden="true" />
                   </SiteLink>
                 </IconButton>
               </Tooltip.Trigger>

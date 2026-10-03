@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd .. && corepack enable && pnpm install --frozen-lockfile --ignore-scripts",
+  "installCommand": "cd .. && node scripts/check-docs-release.mjs && corepack enable && pnpm install --frozen-lockfile --ignore-scripts",
   "buildCommand": "cd .. && pnpm run docs:build",
   "outputDirectory": "out",
   "cleanUrls": true,

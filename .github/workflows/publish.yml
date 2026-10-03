@@ -37,7 +37,7 @@ jobs:
         run: npm install --global npm@11.12.1
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts
+        run: pnpm --filter react-structured install --frozen-lockfile --ignore-scripts
 
       - name: Verify release version
         id: release

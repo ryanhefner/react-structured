@@ -16,7 +16,8 @@ jobs:
           node-version-file: .nvmrc
           package-manager-cache: false
       - run: corepack enable
-      - run: pnpm install --frozen-lockfile
+      # The private docs workspace uses local Chakra Docs until its next release.
+      - run: pnpm --filter react-structured install --frozen-lockfile
       - run: pnpm run lint
       - run: pnpm run typecheck
       - run: pnpm run test:ci

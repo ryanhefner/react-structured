@@ -15,7 +15,10 @@ test('development and CI use the pinned Node 24 and pnpm toolchain', () => {
   for (const workflow of ['ci', 'publish']) {
     const yaml = read(`.github/workflows/${workflow}.yml`)
     assert.match(yaml, /node-version-file: \.nvmrc/)
-    assert.match(yaml, /pnpm install --frozen-lockfile/)
+    assert.match(
+      yaml,
+      /pnpm(?: --filter react-structured)? install --frozen-lockfile/,
+    )
     assert.doesNotMatch(yaml, /npm ci|cache: npm/)
   }
   assert.equal(pkg.peerDependencies.react, '>=16.14')

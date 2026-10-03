@@ -30,6 +30,8 @@ export function DocsPage({
       headings={page.headings}
       sidebarCollapsible
       sidebarDefaultExpanded="active"
+      sidebarSlotProps={{ 'aria-label': 'Documentation navigation' }}
+      tocSlotProps={{ 'aria-label': 'On this page' }}
     >
       <DocsArticle
         page={page}
@@ -54,7 +56,11 @@ export function DocsPage({
         }
       >
         {children}
-        <DocsPagination nav={nav} page={page} />
+        <DocsPagination
+          nav={nav}
+          page={page}
+          slotProps={{ 'aria-label': 'Previous and next pages' }}
+        />
       </DocsArticle>
     </DocsLayout>
   )

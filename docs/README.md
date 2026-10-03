@@ -36,7 +36,9 @@ pnpm install --no-frozen-lockfile
 The core/search pnpm overrides keep all Chakra Docs packages on the same local
 dependency graph. After Chakra Docs is released, replace all six `file:.yalc/`
 dependencies with the new immutable npm version, remove the two local overrides,
-and refresh the lockfile. This step is required before clean CI or deployment.
+and refresh the lockfile. This step is required before docs CI or deployment.
+Library CI and npm publishing install only the library workspace, so these local
+docs dependencies do not block library checks on a clean checkout.
 
 ## Content
 
@@ -56,11 +58,14 @@ also has a `.md` route.
 pnpm run docs:build
 pnpm run docs:typecheck
 pnpm run docs:verify
+pnpm run docs:release-check
 ```
 
 Deploy `docs/out` to `react-structured.dev`. For Vercel, use `docs` as the project
-root; `vercel.json` installs the workspace and builds the library before the
-site. Do not deploy the yalc-pinned branch unchanged.
+root; `vercel.json` checks public dependencies, installs the workspace, and builds
+the library before the site. Do not deploy the yalc-pinned branch unchanged. The
+manual Documentation checks workflow runs the same public-dependency guard and
+uploads the static site after validation.
 
 The site emits canonical/Open Graph/Twitter metadata, robots.txt, a sitemap,
 and a generated fallback PNG. Set `NEXT_PUBLIC_OG_IMAGE_BASE_URL` at build time

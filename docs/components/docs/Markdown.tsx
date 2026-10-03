@@ -64,7 +64,9 @@ export function Markdown({ page }: { page: DocsPage }) {
   const mapped: Components = {
     ...components,
     pre: Pre,
-    blockquote: ({ children }) => <Callout>{children}</Callout>,
+    blockquote: ({ children }) => (
+      <Callout slotProps={{ role: 'note' }}>{children}</Callout>
+    ),
   } as Components
   for (const level of ['h2', 'h3', 'h4', 'h5', 'h6'] as const) {
     const Heading = components[level]

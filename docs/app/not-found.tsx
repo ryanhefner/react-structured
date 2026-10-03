@@ -5,7 +5,7 @@ import { Container, Heading, Stack, Text } from '@chakra-ui/react'
 
 export default function NotFound() {
   return (
-    <Container as="main" maxW="7xl" py={20}>
+    <Container maxW="7xl" py={20}>
       <Stack gap={6}>
         <Heading as="h1">Page not found</Heading>
         <Text>

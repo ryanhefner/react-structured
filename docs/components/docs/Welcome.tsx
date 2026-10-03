@@ -21,7 +21,12 @@ export default function ArticlePage() {
 
 export function Welcome({ nav }: { nav: DocsNavItem[] }) {
   return (
-    <DocsLayout nav={nav} sidebarCollapsible sidebarDefaultExpanded="active">
+    <DocsLayout
+      nav={nav}
+      sidebarCollapsible
+      sidebarDefaultExpanded="active"
+      sidebarSlotProps={{ 'aria-label': 'Documentation navigation' }}
+    >
       <DocsArticle>
         <Stack gap={6}>
           <Heading as="h1" size="4xl">

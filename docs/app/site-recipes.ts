@@ -3,6 +3,26 @@ import { defineSlotRecipe } from '@chakra-ui/react'
 // Site-specific chrome lives in the theme. Components keep content, behavior,
 // and one-off layout props; Chakra's css prop consumes these slot recipes.
 export const siteSlotRecipes = {
+  siteShell: defineSlotRecipe({
+    slots: ['main', 'skipLink'],
+    base: {
+      main: { minW: 0 },
+      skipLink: {
+        position: 'fixed',
+        top: 2,
+        insetInlineStart: 4,
+        zIndex: 'skipNav',
+        px: 4,
+        py: 3,
+        bg: 'bg',
+        color: 'fg',
+        borderWidth: '1px',
+        borderRadius: 'md',
+        transform: 'translateY(-200%)',
+        _focusVisible: { transform: 'translateY(0)' },
+      },
+    },
+  }),
   siteOgImage: defineSlotRecipe({
     slots: [
       'stage',

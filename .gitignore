@@ -1,5 +1,6 @@
 # Modules
 node_modules
+.npm-cache
 
 # Build / Test files
 coverage
