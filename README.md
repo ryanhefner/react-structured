@@ -433,6 +433,9 @@ pnpm run test:ci
 
 See the test files for more examples of how to use each schema type and helper component.
 
+The documentation site lives in [`docs`](docs/README.md) and is prepared for
+`https://react-structured.dev`. Run `pnpm run docs:dev` to preview it locally.
+
 ## Development
 
 Use Node 24.18.0 and pnpm 11.25.0 for repository development. The development

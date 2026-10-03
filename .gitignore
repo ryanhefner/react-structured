@@ -8,6 +8,7 @@ types
 .next
 out
 *.tsbuildinfo
+docs/next-env.d.ts
 **/.yalc
 **/yalc.lock
 

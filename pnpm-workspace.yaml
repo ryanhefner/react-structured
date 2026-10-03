@@ -9,5 +9,7 @@ allowBuilds:
   esbuild: true
 
 overrides:
+  '@chakra-docs/core': file:docs/.yalc/@chakra-docs/core
+  '@chakra-docs/search': file:docs/.yalc/@chakra-docs/search
   'brace-expansion@^1.1.7': 1.1.18
   'brace-expansion@^5.0.5': 5.0.9
