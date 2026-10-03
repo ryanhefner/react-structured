@@ -48,6 +48,18 @@ const load = (route) =>
   }).window.document
 const text = (node) => node?.textContent.replace(/\s+/g, ' ').trim()
 
+test('OSS credits render separate named library and site sections', () => {
+  const doc = load('/withoss')
+  for (const [id, title] of [
+    ['library', 'Library and packages'],
+    ['site', 'Documentation site'],
+  ]) {
+    const section = doc.querySelector(`section[aria-labelledby="oss-${id}"]`)
+    assert.equal(text(section?.querySelector('h2')), title)
+    assert.ok(section?.querySelectorAll('li').length > 0)
+  }
+})
+
 test('all nine documentation pages have one page heading and discoverable search records', () => {
   assert.equal(manifest.pages.length, 9)
   const records = new Set(manifest.search.map((record) => record.route))
