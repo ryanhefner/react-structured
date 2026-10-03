@@ -1,0 +1,48 @@
+task = []
+
+[workspace]
+name = "react-structured"
+tld = "test"
+root_domain = "react-structured"
+
+[workspace.service_defaults]
+package_manager = "pnpm"
+mode = "lazy"
+
+[workspace.service_defaults.runtime]
+kind = "node"
+version = "24.18.0"
+manager = "nvm"
+
+[workspace.service_defaults.readiness]
+kind = "http"
+target = "/"
+startup_timeout_seconds = 600
+request_timeout_seconds = 5
+interval_seconds = 5
+
+[derive]
+
+[worktree]
+copy = []
+link = []
+setup = []
+
+[tasks]
+
+[[unit]]
+name = "react-structured"
+working_dir = "."
+command = "pnpm run docs:dev"
+package_manager = "pnpm"
+hostnames = ["react-structured.test"]
+subtype = "app"
+role = "site"
+source = "byo"
+enabled = true
+id = "unt_wks_workspace_users_ryanhefner_code_open_source_react_structured_react_structured"
+
+[unit.runtime]
+kind = "node"
+version = "24.18.0"
+manager = "nvm"
