@@ -82,3 +82,15 @@ Alternate capture templates are available at `/og-image` and
 expose `data-og-ready="true"` after fonts and SVG assets are ready. Static routes
 are generated at build time; no unsupported Next.js static-export rewrites are
 used.
+
+## Analytics
+
+Set `NEXT_PUBLIC_FATHOM_SITE_ID` and optionally
+`NEXT_PUBLIC_FATHOM_CUSTOM_DOMAIN` before building. React Fathom tracks initial
+loads, App Router navigation, and docs interaction events. Empty IDs disable
+network analytics. Query strings, fragments, search text, clipboard contents,
+and feedback comments are not sent. OG capture pages bypass analytics.
+
+Before deployment, replace the temporary `file:.yalc/react-fathom` dependency
+with its new immutable npm release and refresh the lockfile. Upgrade the local
+Chakra Docs dependencies to its newly published version at the same time.

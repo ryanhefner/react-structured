@@ -11,6 +11,7 @@ import { SiteLink } from '@/components/docs/SiteLink'
 import type { DocsSearchRecord } from '@chakra-docs/core'
 import { Box, useSlotRecipe } from '@chakra-ui/react'
 
+import { Analytics } from './analytics'
 import { Provider } from './provider'
 
 function SiteChrome({
@@ -50,19 +51,22 @@ export function SiteExperience({
   siteUrl: string
 }) {
   const pathname = usePathname()
+  const route = pathname.replace(/\/+$/, '') || '/'
   const capture =
-    pathname === '/og-image' ||
-    pathname.startsWith('/og-image/') ||
-    pathname.endsWith('/social-image')
+    route === '/og-image' ||
+    route.startsWith('/og-image/') ||
+    route.endsWith('/social-image')
   return (
-    <Provider siteUrl={siteUrl}>
-      {capture ? (
-        children
-      ) : (
-        <SiteChrome records={records} year={year}>
-          {children}
-        </SiteChrome>
-      )}
-    </Provider>
+    <Analytics enabled={!capture}>
+      <Provider siteUrl={siteUrl}>
+        {capture ? (
+          children
+        ) : (
+          <SiteChrome records={records} year={year}>
+            {children}
+          </SiteChrome>
+        )}
+      </Provider>
+    </Analytics>
   )
 }

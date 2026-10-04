@@ -143,6 +143,9 @@ importers:
       '@postkit/react':
         specifier: 0.2.0
         version: 0.2.0(@chakra-ui/react@3.36.0(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8)(supports-color@7.2.0))(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(supports-color@7.2.0)
+      fathom-client:
+        specifier: 3.7.2
+        version: 3.7.2
       next:
         specifier: 16.3.7
         version: 16.3.7(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@24.13.6)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -155,6 +158,9 @@ importers:
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
+      react-fathom:
+        specifier: file:.yalc/react-fathom
+        version: file:docs/.yalc/react-fathom(fathom-client@3.7.2)(next@16.3.7(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@24.13.6)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-icons:
         specifier: 5.7.0
         version: 5.7.0(react@19.2.8)
@@ -3976,6 +3982,12 @@ packages:
         integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==,
       }
 
+  fathom-client@3.7.2:
+    resolution:
+      {
+        integrity: sha512-sWtaNivhg7uwp/q1bUuIiNj4LeQZMEZ5NXXFFpZ8le4uDedAfQG84gPOdYehtVXbl+1yX2s8lmXZ2+IQ9a/xxA==,
+      }
+
   fault@2.0.1:
     resolution:
       {
@@ -5726,6 +5738,36 @@ packages:
       }
     peerDependencies:
       react: ^19.2.8
+
+  react-fathom@file:docs/.yalc/react-fathom:
+    resolution: { directory: docs/.yalc/react-fathom, type: directory }
+    engines: { node: '>=20' }
+    peerDependencies:
+      '@reach/router': '>=1.3.0'
+      '@tanstack/react-router': '>=1.0.0'
+      fathom-client: '>=3.0.0'
+      gatsby: '>=4.0.0'
+      next: '>=13.0.0'
+      react: '>=16.8'
+      react-dom: '>=16.8'
+      react-native: '>=0.60.0'
+      react-native-webview: '>=11.0.0'
+      react-router-dom: '>=6.0.0'
+    peerDependenciesMeta:
+      '@reach/router':
+        optional: true
+      '@tanstack/react-router':
+        optional: true
+      gatsby:
+        optional: true
+      next:
+        optional: true
+      react-native:
+        optional: true
+      react-native-webview:
+        optional: true
+      react-router-dom:
+        optional: true
 
   react-icons@5.7.0:
     resolution:
@@ -9751,6 +9793,8 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
+  fathom-client@3.7.2: {}
+
   fault@2.0.1:
     dependencies:
       format: 0.2.2
@@ -11099,6 +11143,15 @@ snapshots:
     dependencies:
       react: 19.2.8
       scheduler: 0.27.0
+
+  react-fathom@file:docs/.yalc/react-fathom(fathom-client@3.7.2)(next@16.3.7(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@24.13.6)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      fathom-client: 3.7.2
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+    optionalDependencies:
+      next: 16.3.7(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@24.13.6)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   react-icons@5.7.0(react@19.2.8):
     dependencies:
