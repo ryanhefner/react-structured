@@ -1,6 +1,6 @@
 # react-structured documentation
 
-The docs app lives in this private workspace and uses the shared OSS-site
+The docs app lives in the repository's pnpm workspace and uses the shared OSS-site
 foundation: Chakra UI 3, Chakra Docs, Postkit, Shiki, Suisse fonts, and the
 COMMUNE and OSS footers. It has no site CSS files.
 
@@ -22,9 +22,9 @@ kit permits the production and local domains.
 
 ## Local Chakra Docs testing
 
-This development branch uses the locally published yalc packages while the next
-Chakra Docs release is being prepared. The copies in `.yalc` are intentionally
-not committed. On a second machine, populate them **before installing**:
+The committed Chakra Docs dependencies use pinned public releases. To test
+local changes to Chakra Docs, publish the packages to your yalc store and link
+them in the docs workspace:
 
 ```sh
 cd docs
@@ -33,12 +33,8 @@ cd ..
 pnpm install --no-frozen-lockfile
 ```
 
-The core/search pnpm overrides keep all Chakra Docs packages on the same local
-dependency graph. After Chakra Docs is released, replace all six `file:.yalc/`
-dependencies with the new immutable npm version, remove the two local overrides,
-and refresh the lockfile. This step is required before docs CI or deployment.
-Library CI and npm publishing install only the library workspace, so these local
-docs dependencies do not block library checks on a clean checkout.
+Yalc copies and registrations are intentionally untracked. Remove local links
+and restore the committed public versions before running docs CI or deploying.
 
 ## Content
 
@@ -63,7 +59,7 @@ pnpm run docs:release-check
 
 Deploy `docs/out` to `react-structured.dev`. For Vercel, use `docs` as the project
 root; `vercel.json` checks public dependencies, installs the workspace, and builds
-the library before the site. Do not deploy the yalc-pinned branch unchanged. The
+the library before the site. Production installs must not depend on a local yalc store. The
 manual Documentation checks workflow runs the same public-dependency guard and
 uploads the static site after validation.
 
@@ -92,5 +88,5 @@ network analytics. Query strings, fragments, search text, clipboard contents,
 and feedback comments are not sent. OG capture pages bypass analytics.
 
 Before deployment, replace the temporary `file:.yalc/react-fathom` dependency
-with its new immutable npm release and refresh the lockfile. Upgrade the local
-Chakra Docs dependencies to its newly published version at the same time.
+with its immutable npm release and refresh the lockfile. Keep the Chakra Docs
+dependencies pinned to published versions when making that change.
