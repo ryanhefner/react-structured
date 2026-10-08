@@ -87,6 +87,6 @@ loads, App Router navigation, and docs interaction events. Empty IDs disable
 network analytics. Query strings, fragments, search text, clipboard contents,
 and feedback comments are not sent. OG capture pages bypass analytics.
 
-Before deployment, replace the temporary `file:.yalc/react-fathom` dependency
-with its immutable npm release and refresh the lockfile. Keep the Chakra Docs
-dependencies pinned to published versions when making that change.
+The site pins the published `react-fathom@0.3.0` and Chakra Docs `0.3.0` releases.
+No local yalc copies of these packages are needed for a clean CI or deployment
+install.
