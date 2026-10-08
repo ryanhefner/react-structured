@@ -29,11 +29,19 @@ function SiteChrome({
       <SiteLink href="#main-content" css={styles.skipLink}>
         Skip to content
       </SiteLink>
-      <Navbar records={records} />
-      <Box as="main" id="main-content" tabIndex={-1} css={styles.main}>
-        {children}
+      <Box className="site-wrapper" css={styles.root}>
+        <Navbar records={records} />
+        <Box
+          as="main"
+          id="main-content"
+          className="site-content"
+          tabIndex={-1}
+          css={styles.main}
+        >
+          {children}
+        </Box>
+        <SiteFooter year={year} />
       </Box>
-      <SiteFooter year={year} />
       <CommuneFooter />
     </>
   )
