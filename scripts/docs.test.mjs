@@ -48,6 +48,22 @@ const load = (route) =>
   }).window.document
 const text = (node) => node?.textContent.replace(/\s+/g, ' ').trim()
 
+test('static LLM files index real Markdown exports and include every published body', () => {
+  const index = readFileSync(path.join(docsRoot, 'out/llms.txt'), 'utf8')
+  const full = readFileSync(path.join(docsRoot, 'out/llms-full.txt'), 'utf8')
+  assert.ok(index.startsWith('# react-structured\n'))
+  assert.ok(index.includes(`${SITE_URL}/llms-full.txt`))
+  for (const page of manifest.pages) {
+    if (page.frontmatter.draft || page.frontmatter.hidden) continue
+    const markdownPath = `/markdown/${page.slug.join('/') || 'index'}.md`
+    const url = `${SITE_URL}${markdownPath}`
+    assert.ok(index.includes(`](${url})`), page.route)
+    assert.ok(full.includes(`Source: ${url}`), page.route)
+    assert.ok(full.includes(page.body.trim()), page.route)
+    assert.ok(existsSync(path.join(docsRoot, 'out', markdownPath.slice(1))))
+  }
+})
+
 test('OSS credits render separate named library and site sections', () => {
   const doc = load('/withoss')
   for (const [id, title] of [

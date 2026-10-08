@@ -48,6 +48,14 @@ Page actions use automatic composition and download Markdown from real,
 generated `/markdown/<slug>.md` endpoints. They do not assume that a docs page
 also has a `.md` route.
 
+## LLM documentation
+
+`/llms.txt` indexes the published docs using their real `/markdown/<slug>.md`
+endpoints. `/llms-full.txt` includes their complete Markdown bodies. Both are
+generated from the docs manifest into `docs/out` at build time and exclude draft
+and hidden content. `docs:verify` validates the files and their links. Rebuild
+and deploy the site after editing docs; no npm publish is needed.
+
 ## Static deployment
 
 ```sh
