@@ -54,6 +54,6 @@ import { ArticleJsonLd } from 'react-structured'
 
 ## Development warnings
 
-Warnings currently cover common missing fields in products, breadcrumbs, and FAQs. They are non-blocking, deduplicated, disabled in production, and can be disabled explicitly with `validate={false}`. They are not exhaustive validation.
+Warnings cover common missing fields in products, breadcrumbs, and FAQs. They are non-blocking, deduplicated, disabled in production, and can be disabled explicitly with `validate={false}`. They are not exhaustive validation.
 
 > A helper does not guarantee search eligibility. Search-engine feature policies and required fields can change; verify your deployed page with the relevant provider's current validation tools.
