@@ -1,12 +1,17 @@
 import { notFound } from 'next/navigation'
 
 import { OgImagePage } from '@/components/docs/OgImagePage'
+import { createCaptureMetadata } from '@/lib/site'
 import { getSocialImagePages } from '@/lib/social-image'
 
 export const dynamicParams = false
-export const metadata = {
-  title: 'Open Graph image',
-  robots: { index: false, follow: false },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>
+}) {
+  const { slug } = await params
+  return createCaptureMetadata(`/og-image/${slug.join('/')}`)
 }
 
 export async function generateStaticParams() {

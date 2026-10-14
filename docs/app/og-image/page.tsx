@@ -1,9 +1,7 @@
 import { OgImagePage } from '@/components/docs/OgImagePage'
+import { createCaptureMetadata } from '@/lib/site'
 
-export const metadata = {
-  title: 'Open Graph image',
-  robots: { index: false, follow: false },
-}
+export const metadata = createCaptureMetadata('/og-image')
 
 export default function ImageTemplate() {
   return <OgImagePage />

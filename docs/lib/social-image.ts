@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { getDocsManifest } from './docs'
 import { OG_IMAGE_DEFAULTS } from './og-image'
+import { createCaptureMetadata } from './site'
 
 export const WITH_OSS_PAGE = {
   route: '/withoss',
@@ -23,11 +24,5 @@ export async function getSocialImagePages() {
 }
 
 export function captureMetadata(route: string): Metadata {
-  return {
-    title: 'Open Graph image',
-    alternates: { canonical: `${route === '/' ? '' : route}/social-image` },
-    robots: { index: false, follow: false },
-    openGraph: null,
-    twitter: null,
-  }
+  return createCaptureMetadata(`${route === '/' ? '' : route}/social-image`)
 }

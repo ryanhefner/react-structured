@@ -8,6 +8,7 @@ export default defineConfig({
     include: [
       './src/**/*.{test,spec}.?(c|m)[jt]s?(x)',
       './docs/lib/mobile-navigation.test.tsx',
+      './docs/lib/site.test.ts',
     ],
     environment: 'jsdom',
   },
