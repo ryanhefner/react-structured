@@ -5,6 +5,20 @@ import { test } from 'node:test'
 const read = (file) =>
   readFileSync(new URL('../' + file, import.meta.url), 'utf8')
 
+test('every locked source-map-js version includes the indexed-map DoS fix', () => {
+  const versions = [
+    ...read('pnpm-lock.yaml').matchAll(/^  source-map-js@(\d+\.\d+\.\d+):/gm),
+  ]
+  assert.ok(versions.length > 0)
+  for (const [, version] of versions) {
+    const [major, minor, patch] = version.split('.').map(Number)
+    assert.ok(
+      major > 1 || (major === 1 && (minor > 2 || (minor === 2 && patch >= 2))),
+      version,
+    )
+  }
+})
+
 test('site analytics uses the pinned public React Fathom release', () => {
   assert.equal(
     JSON.parse(read('docs/package.json')).dependencies['react-fathom'],
