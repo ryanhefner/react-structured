@@ -233,10 +233,53 @@ test('site uses the shared font kit, semantic footer, and its own JSON-LD render
     ),
   )
   assert.ok(doc.querySelector('a[href="/withoss"] img[src="/assets/oss.svg"]'))
-  const jsonld = JSON.parse(doc.querySelector('#website-jsonld').textContent)
+  const jsonld = JSON.parse(
+    doc.querySelector('#page-structured-data').textContent,
+  )
   assert.equal(jsonld['@context'], 'https://schema.org')
-  assert.equal(jsonld['@type'], 'WebSite')
-  assert.equal(jsonld.url, SITE_URL)
+  const website = jsonld['@graph'].find((node) => node['@type'] === 'WebSite')
+  assert.equal(website.url, `${SITE_URL}/`)
+})
+
+test('every public page renders its own graph while capture and error pages do not', () => {
+  for (const page of [
+    { route: '/', title: 'react-structured' },
+    { route: '/withoss', title: 'Made with open source' },
+    ...manifest.pages,
+  ]) {
+    const doc = load(page.route)
+    assert.equal(
+      doc.querySelectorAll('script[type="application/ld+json"]').length,
+      1,
+      page.route,
+    )
+    const graph = JSON.parse(
+      doc.querySelector('#page-structured-data').textContent,
+    )['@graph']
+    const entity = graph.find((node) =>
+      ['WebPage', 'CollectionPage'].includes(node['@type']),
+    )
+    assert.equal(entity.name, page.title, page.route)
+    assert.equal(new URL(entity.url).pathname, page.route, page.route)
+    if (page.route.startsWith('/docs/'))
+      assert.ok(
+        graph.some((node) => node['@type'] === 'TechArticle'),
+        page.route,
+      )
+  }
+  for (const route of [
+    '/404',
+    '/social-image',
+    '/withoss/social-image',
+    '/docs/schema/social-image',
+    '/og-image/docs/schema',
+  ]) {
+    assert.equal(
+      load(route).querySelectorAll('script[type="application/ld+json"]').length,
+      0,
+      route,
+    )
+  }
 })
 
 test('tables, code blocks, and callouts are actually rendered', () => {

@@ -86,7 +86,7 @@
     "docs:dev": "pnpm run build && pnpm --dir docs dev",
     "docs:build": "pnpm run build && pnpm --dir docs build",
     "docs:typecheck": "pnpm --dir docs typecheck",
-    "docs:verify": "node --test scripts/docs.test.mjs",
+    "docs:verify": "node --test scripts/docs.test.mjs scripts/site-structured-data.test.mjs",
     "docs:release-check": "node scripts/check-docs-release.mjs",
     "verify": "pnpm run test:tooling && pnpm run lint && pnpm run typecheck && pnpm test"
   },

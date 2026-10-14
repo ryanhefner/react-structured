@@ -1,8 +1,7 @@
-import { Schema } from 'react-structured'
-
+import { StructuredData } from '@/components/docs/StructuredData'
 import { Welcome } from '@/components/docs/Welcome'
 import { getDocsManifest } from '@/lib/docs'
-import { pageMetadata, SITE_DESCRIPTION, SITE_URL } from '@/lib/site'
+import { pageMetadata, SITE_DESCRIPTION } from '@/lib/site'
 
 export const metadata = pageMetadata({
   route: '/',
@@ -13,12 +12,10 @@ export const metadata = pageMetadata({
 export default async function Home() {
   return (
     <>
-      <Schema
-        id="website-jsonld"
-        type="WebSite"
-        data={{
-          name: 'react-structured',
-          url: SITE_URL,
+      <StructuredData
+        page={{
+          route: '/',
+          title: 'react-structured',
           description: SITE_DESCRIPTION,
         }}
       />
