@@ -7,7 +7,7 @@ const read = (file) =>
 
 test('every locked source-map-js version includes the indexed-map DoS fix', () => {
   const versions = [
-    ...read('pnpm-lock.yaml').matchAll(/^  source-map-js@(\d+\.\d+\.\d+):/gm),
+    ...read('pnpm-lock.yaml').matchAll(/^ {2}source-map-js@(\d+\.\d+\.\d+):/gm),
   ]
   assert.ok(versions.length > 0)
   for (const [, version] of versions) {
@@ -16,6 +16,17 @@ test('every locked source-map-js version includes the indexed-map DoS fix', () =
       major > 1 || (major === 1 && (minor > 2 || (minor === 2 && patch >= 2))),
       version,
     )
+  }
+})
+
+test('every locked nanoid 3 release includes the zero-size generator fix', () => {
+  const versions = [
+    ...read('pnpm-lock.yaml').matchAll(/^ {2}nanoid@(3\.\d+\.\d+):/gm),
+  ]
+  assert.ok(versions.length > 0)
+  for (const [, version] of versions) {
+    const [, minor, patch] = version.split('.').map(Number)
+    assert.ok(minor > 3 || (minor === 3 && patch >= 18), version)
   }
 })
 
