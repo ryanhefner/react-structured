@@ -69,7 +69,13 @@ pnpm run docs:release-check
 
 Deploy `docs/out` to `react-structured.dev`. For Vercel, use `docs` as the project
 root; `vercel.json` checks public dependencies, installs the workspace, and builds
-the library before the site. Production installs must not depend on a local yalc store. The
+the library before the site. Keep the Framework Preset set to **Next.js** and the
+Output Directory override **off** in Vercel's project settings. The Next.js adapter
+reads build manifests from `.next` and handles the static export automatically;
+setting its Output Directory to `out` makes it look for those manifests in the
+wrong folder. `docs/out` remains the exported site for other static hosts.
+
+Production installs must not depend on a local yalc store. The
 manual Documentation checks workflow runs the same public-dependency guard and
 uploads the static site after validation.
 
