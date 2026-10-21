@@ -59,6 +59,7 @@ and deploy the site after editing docs; no npm publish is needed.
 ## Static deployment
 
 ```sh
+pnpm run docs:tooling
 pnpm run docs:build
 pnpm run docs:test
 pnpm run docs:typecheck
@@ -73,11 +74,14 @@ manual Documentation checks workflow runs the same public-dependency guard and
 uploads the static site after validation.
 
 `pnpm test` and `pnpm run test:ci` run only the library tests; package coverage
-does not include the private docs app. `pnpm run docs:test` runs the docs unit
-tests separately, including navigation, metadata, and JSON-LD. Install the full
+does not include the private docs app. `pnpm run test:tooling` checks package
+tooling without loading docs code, so `prepublishOnly` can verify a library-only
+install. `pnpm run docs:tooling` checks docs tooling, including LLM files,
+recommendations, analytics, and dependency guards. `pnpm run docs:test` runs the
+docs unit tests separately, including navigation, metadata, and JSON-LD. Install the full
 workspace and run `pnpm run build` first: these tests use the built local library
-through its public package exports. Both CI and Documentation checks run this
-suite; filtering the install to the root library is only appropriate for the
+through its public package exports. Both CI and Documentation checks run the
+docs suites; filtering the install to the root library is only appropriate for the
 library-only publish workflow.
 
 The site emits canonical/Open Graph/Twitter metadata, robots.txt, a sitemap,

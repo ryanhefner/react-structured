@@ -83,6 +83,7 @@
     "test:ci": "vitest run --coverage",
     "typecheck": "tsc -p tsconfig.typecheck.json",
     "test:tooling": "node --test scripts/tooling.test.mjs",
+    "docs:tooling": "node --test scripts/docs-tooling.test.mjs",
     "docs:dev": "pnpm run build && pnpm --dir docs dev",
     "docs:build": "pnpm run build && pnpm --dir docs build",
     "docs:typecheck": "pnpm --dir docs typecheck",
