@@ -20,6 +20,7 @@ jobs:
       # Docs tests require the public dependencies in the docs workspace too.
       - run: pnpm install --frozen-lockfile
       - run: pnpm run test:tooling
+      - run: pnpm run docs:tooling
       - run: pnpm run lint
       - run: pnpm run typecheck
       - run: pnpm run test:ci

@@ -33,11 +33,13 @@ test('CI runs docs tests with workspace dependencies and an already-built librar
   assert.match(ci, /pnpm install --frozen-lockfile/)
   assert.doesNotMatch(ci, /--filter react-structured install/)
   assert.match(ci, /pnpm run test:tooling/)
+  assert.match(ci, /pnpm run docs:tooling/)
   assert.match(ci, /pnpm run test:ci/)
   assert.ok(ci.indexOf('pnpm run build') < ci.indexOf('pnpm run docs:test'))
   assert.match(ci, /pnpm run docs:test/)
   const workflow = read('.github/workflows/docs.yml')
   assert.match(workflow, /pnpm run docs:test/)
+  assert.match(workflow, /pnpm run docs:tooling/)
   assert.ok(
     workflow.indexOf('pnpm run docs:build') <
       workflow.indexOf('pnpm run docs:test'),
@@ -47,5 +49,36 @@ test('CI runs docs tests with workspace dependencies and an already-built librar
   assert.equal(
     pkg.scripts['docs:test'],
     'vitest run --config vite.docs.config.ts',
+  )
+})
+
+test('publish verification excludes docs tooling without dropping its CI checks', () => {
+  const pkg = JSON.parse(read('package.json'))
+  assert.equal(pkg.scripts.prepublishOnly, 'pnpm run verify')
+  assert.match(pkg.scripts.verify, /pnpm run test:tooling/)
+  assert.doesNotMatch(pkg.scripts.verify, /docs:/)
+  assert.equal(
+    pkg.scripts['test:tooling'],
+    'node --test scripts/tooling.test.mjs',
+  )
+  assert.equal(
+    pkg.scripts['docs:tooling'],
+    'node --test scripts/docs-tooling.test.mjs',
+  )
+  const tooling = read('scripts/tooling.test.mjs')
+  const docsTooling = read('scripts/docs-tooling.test.mjs')
+  for (const suite of [
+    'oss-credits',
+    'docs-dependencies',
+    'mobile-layout',
+    'search-recommendations',
+    'llms',
+  ]) {
+    assert.ok(!tooling.includes(`import './${suite}.test.mjs'`), suite)
+    assert.ok(docsTooling.includes(`import './${suite}.test.mjs'`), suite)
+  }
+  assert.match(
+    read('.github/workflows/publish.yml'),
+    /pnpm --filter react-structured install --frozen-lockfile --ignore-scripts/,
   )
 })
