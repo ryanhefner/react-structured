@@ -60,6 +60,7 @@ and deploy the site after editing docs; no npm publish is needed.
 
 ```sh
 pnpm run docs:build
+pnpm run docs:test
 pnpm run docs:typecheck
 pnpm run docs:verify
 pnpm run docs:release-check
@@ -70,6 +71,14 @@ root; `vercel.json` checks public dependencies, installs the workspace, and buil
 the library before the site. Production installs must not depend on a local yalc store. The
 manual Documentation checks workflow runs the same public-dependency guard and
 uploads the static site after validation.
+
+`pnpm test` and `pnpm run test:ci` run only the library tests; package coverage
+does not include the private docs app. `pnpm run docs:test` runs the docs unit
+tests separately, including navigation, metadata, and JSON-LD. Install the full
+workspace and run `pnpm run build` first: these tests use the built local library
+through its public package exports. Both CI and Documentation checks run this
+suite; filtering the install to the root library is only appropriate for the
+library-only publish workflow.
 
 The site emits canonical/Open Graph/Twitter metadata, robots.txt, a sitemap,
 and a generated fallback PNG. Set `NEXT_PUBLIC_OG_IMAGE_BASE_URL` at build time
