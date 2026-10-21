@@ -141,6 +141,15 @@ export default [
     rules: sharedRules,
   },
   {
-    ignores: ['dist/**', 'types/**', 'node_modules/**', 'coverage/**'],
+    ignores: [
+      'dist/**',
+      'types/**',
+      '**/node_modules/**',
+      'coverage/**',
+      'docs/.next/**',
+      'docs/out/**',
+      'docs/.yalc/**',
+      'docs/next-env.d.ts',
+    ],
   },
 ]

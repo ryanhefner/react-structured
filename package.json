@@ -1,6 +1,6 @@
 {
   "name": "react-structured",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Type-safe React components for Schema.org JSON-LD structured data, rich results, and @graph documents.",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/ryanhefner/react-structured/issues"
   },
-  "homepage": "https://github.com/ryanhefner/react-structured#readme",
+  "homepage": "https://react-structured.dev",
   "funding": [
     {
       "type": "github",
@@ -74,15 +74,22 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "clean": "rimraf dist types coverage",
-    "build": "npm run clean && rollup -c --bundleConfigAsCjs && tsc -p tsconfig.json",
+    "build": "pnpm run clean && rollup -c --bundleConfigAsCjs && tsc -p tsconfig.json",
     "dev": "rollup -c --bundleConfigAsCjs --watch",
     "lint": "eslint .",
-    "prepack": "npm run build",
-    "prepublishOnly": "npm run verify",
+    "prepack": "pnpm run build",
+    "prepublishOnly": "pnpm run verify",
     "test": "vitest run",
     "test:ci": "vitest run --coverage",
     "typecheck": "tsc -p tsconfig.typecheck.json",
-    "verify": "npm run lint && npm run typecheck && npm test"
+    "test:tooling": "node --test scripts/tooling.test.mjs",
+    "docs:dev": "pnpm run build && pnpm --dir docs dev",
+    "docs:build": "pnpm run build && pnpm --dir docs build",
+    "docs:typecheck": "pnpm --dir docs typecheck",
+    "docs:test": "vitest run --config vite.docs.config.ts",
+    "docs:verify": "node --test scripts/docs.test.mjs scripts/site-structured-data.test.mjs",
+    "docs:release-check": "node scripts/check-docs-release.mjs",
+    "verify": "pnpm run test:tooling && pnpm run lint && pnpm run typecheck && pnpm test"
   },
   "peerDependencies": {
     "react": ">=16.14"
@@ -106,6 +113,7 @@
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/parser": "^8.50.0",
     "@vitest/coverage-v8": "^4.0.16",
+    "axe-core": "4.12.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
@@ -123,9 +131,5 @@
     "vite": "^8.0.13",
     "vitest": "^4.0.16"
   },
-  "overrides": {
-    "brace-expansion@^1.1.7": "1.1.18",
-    "brace-expansion@^5.0.5": "5.0.9"
-  },
-  "packageManager": "npm@11.12.1"
+  "packageManager": "pnpm@11.25.0"
 }

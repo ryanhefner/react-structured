@@ -1,10 +1,19 @@
 # Modules
 node_modules
+.npm-cache
 
 # Build / Test files
 coverage
 dist
 types
+.next
+out
+*.tsbuildinfo
+docs/next-env.d.ts
+**/.yalc
+**/yalc.lock
 
 # Misc
 .DS_Store
+.env*
+!.env.example

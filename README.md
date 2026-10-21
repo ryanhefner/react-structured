@@ -426,9 +426,28 @@ The components enforce type safety, so invalid schema data is caught during deve
 Coverage is generated with Vitest and uploaded to Codecov from GitHub Actions.
 
 ```sh
-npm run test:ci
+pnpm run test:ci
 ```
 
 ## Examples
 
 See the test files for more examples of how to use each schema type and helper component.
+
+The documentation site lives in [`docs`](docs/README.md) and is prepared for
+`https://react-structured.dev`. Run `pnpm run docs:dev` to preview it locally.
+
+## Development
+
+Use Node 24.18.0 and pnpm 11.25.0 for repository development. The development
+runtime pin does not change the library's React peer compatibility.
+
+```sh
+nvm use
+corepack enable
+pnpm install --frozen-lockfile
+pnpm run verify
+pnpm run build
+```
+
+Publishing still uses npm for Trusted Publishing; pnpm manages dependencies and
+development tasks. Consumer installation commands above remain valid with npm.
