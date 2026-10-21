@@ -1,6 +1,6 @@
 {
   "name": "react-structured",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Type-safe React components for Schema.org JSON-LD structured data, rich results, and @graph documents.",
   "repository": {
     "type": "git",
