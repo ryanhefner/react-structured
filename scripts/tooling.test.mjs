@@ -1,4 +1,5 @@
 import './test-suites.test.mjs'
+import './package-metadata.test.mjs'
 import assert from 'node:assert/strict'
 import { readFileSync, existsSync } from 'node:fs'
 import test from 'node:test'
