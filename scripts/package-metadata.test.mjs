@@ -7,6 +7,19 @@ const pkg = JSON.parse(
 )
 const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8')
 
+test('release version matches the documentation header and changelog', () => {
+  const header = readFileSync(
+    new URL('../docs/components/docs/Navbar.tsx', import.meta.url),
+    'utf8',
+  )
+  const changelog = readFileSync(
+    new URL('../CHANGELOG.md', import.meta.url),
+    'utf8',
+  )
+  assert.ok(header.includes(`v${pkg.version}`))
+  assert.ok(changelog.includes(`## ${pkg.version} - `))
+})
+
 test('package metadata and README provide focused discovery and support paths', () => {
   assert.match(pkg.description, /JSON-LD/)
   assert.equal(pkg.homepage, 'https://react-structured.dev')
