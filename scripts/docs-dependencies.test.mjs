@@ -33,10 +33,13 @@ test('every locked nanoid 3 release includes the zero-size generator fix', () =>
 test('the docs pin the patched Next.js release without older lockfile copies', () => {
   assert.equal(
     JSON.parse(read('docs/package.json')).dependencies.next,
-    '16.3.8',
+    '16.4.2',
   )
-  assert.match(read('pnpm-lock.yaml'), /^ {2}next@16\.3\.8:/m)
-  assert.doesNotMatch(read('pnpm-lock.yaml'), /^ {2}next@16\.3\.[0-7]:/m)
+  assert.match(read('pnpm-lock.yaml'), /^ {2}next@16\.4\.2:/m)
+  assert.doesNotMatch(
+    read('pnpm-lock.yaml'),
+    /^ {2}next@16\.(?:[0-3]\.\d+|4\.[01]):/m,
+  )
 })
 
 test('site analytics uses the pinned public React Fathom release', () => {

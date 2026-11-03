@@ -15,3 +15,13 @@ test('Vercel looks for Next.js build manifests, not static-export assets', () =>
   assert.equal(nextConfig.output, 'export')
   assert.equal(vercel.buildCommand, 'cd .. && pnpm run docs:build')
 })
+
+test('documentation verification checks the exported site over HTTP independently of publishing', () => {
+  const pkg = JSON.parse(
+    readFileSync(new URL('../package.json', import.meta.url), 'utf8'),
+  )
+  assert.match(pkg.scripts['docs:verify'], /pnpm run docs:smoke/)
+  assert.equal(pkg.scripts['docs:smoke'], 'node scripts/docs-http-smoke.mjs')
+  assert.doesNotMatch(pkg.scripts.verify, /docs:/)
+  assert.equal(pkg.scripts.prepublishOnly, 'pnpm run verify')
+})

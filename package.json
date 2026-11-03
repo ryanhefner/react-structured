@@ -1,12 +1,18 @@
 {
   "name": "react-structured",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Type-safe React components for Schema.org JSON-LD structured data, rich results, and @graph documents.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ryanhefner/react-structured.git"
   },
   "author": "Ryan Hefner <hi@ryanhefner.com> (https://www.ryanhefner.com)",
+  "contributors": [
+    {
+      "name": "Commune Software",
+      "url": "https://commune.software"
+    }
+  ],
   "license": "MIT",
   "type": "module",
   "bugs": {
@@ -31,21 +37,14 @@
     "react",
     "json-ld",
     "jsonld",
-    "ld-json",
     "react-json-ld",
-    "schema.org",
     "schema-org",
-    "schema",
     "schema-dts",
     "structured-data",
     "rich-results",
     "google-rich-results",
-    "google-search",
     "seo",
-    "metadata",
-    "next",
     "nextjs",
-    "app-router",
     "typescript"
   ],
   "files": [
@@ -74,7 +73,7 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "clean": "rimraf dist types coverage",
-    "build": "pnpm run clean && rollup -c --bundleConfigAsCjs && tsc -p tsconfig.json",
+    "build": "pnpm run clean && rollup -c --bundleConfigAsCjs && tsc -p tsconfig.json && node scripts/readme-smoke.mjs",
     "dev": "rollup -c --bundleConfigAsCjs --watch",
     "lint": "eslint .",
     "prepack": "pnpm run build",
@@ -88,7 +87,8 @@
     "docs:build": "pnpm run build && pnpm --dir docs build",
     "docs:typecheck": "pnpm --dir docs typecheck",
     "docs:test": "vitest run --config vite.docs.config.ts",
-    "docs:verify": "node --test scripts/docs.test.mjs scripts/site-structured-data.test.mjs",
+    "docs:verify": "node --test scripts/docs.test.mjs scripts/site-structured-data.test.mjs && pnpm run docs:smoke",
+    "docs:smoke": "node scripts/docs-http-smoke.mjs",
     "docs:release-check": "node scripts/check-docs-release.mjs",
     "verify": "pnpm run test:tooling && pnpm run lint && pnpm run typecheck && pnpm test"
   },
