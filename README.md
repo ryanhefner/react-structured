@@ -5,441 +5,90 @@
 [![codecov](https://codecov.io/gh/ryanhefner/react-structured/branch/main/graph/badge.svg)](https://codecov.io/gh/ryanhefner/react-structured)
 [![license](https://img.shields.io/npm/l/react-structured.svg)](LICENSE)
 
-Type-safe React components for Schema.org JSON-LD structured data, Google rich results, and linked `@graph` documents.
+Type-safe React components for Schema.org JSON-LD, rich-result helpers, and linked `@graph` documents. Use them in any React application, including Next.js, without a Next.js dependency.
 
-`react-structured` is a small React JSON-LD library powered by [`schema-dts`](https://github.com/google/schema-dts). It gives you typed Schema.org data for SEO, structured data, rich results, and Next.js apps without requiring Next.js.
+[Documentation](https://react-structured.dev) · [Getting started](https://react-structured.dev/docs/getting-started) · [API reference](https://react-structured.dev/docs/reference) · [Examples](https://react-structured.dev/docs/schema) · [Issues](https://github.com/ryanhefner/react-structured/issues)
 
-## Why react-structured?
+Created by [Ryan Hefner](https://www.ryanhefner.com) and [Commune Software](https://commune.software).
 
-- Full `schema-dts` coverage for Schema.org `Thing` types and JSON-LD `@graph` documents
-- Framework-agnostic React components that also work in Next.js App Router and Pages Router
-- Type-safe `SchemaData<'Product'>`, `SchemaData<'Movie'>`, `GraphData`, and `JsonLdData`
-- Small JSON-LD focused API: `Schema`, `Graph`, `JsonLd`, and common rich-result helpers
-- Safe script serialization with `</script>` escaping and CSP `nonce` support
-- Development-time warnings for common Google rich-result required fields
-
-## Installation
+## Install
 
 ```sh
 npm install react-structured
 ```
 
-## Usage
+Use an existing React 16.14 or newer application. TypeScript declarations are included, with Schema.org types powered by [`schema-dts`](https://github.com/google/schema-dts). Both ESM and CommonJS entry points are available.
 
-`Schema` renders a single Schema.org node as a JSON-LD script tag.
+## Quick start
 
-```tsx
-import { Schema, type SchemaData } from 'react-structured'
+Render structured data alongside the visible page content. This example returns a complete React component; replace its example values with facts about your site.
 
-// Article schema
-<Schema
-  type="Article"
-  data={{
-    headline: 'Article Title',
-    datePublished: '2024-01-01',
-    author: {
-      '@type': 'Person',
-      name: 'John Doe'
-    }
-  }}
-/>
-
-// Product schema
-<Schema
-  type="Product"
-  data={{
-    name: 'Product Name',
-    description: 'Product description',
-    offers: {
-      '@type': 'Offer',
-      price: '29.99',
-      priceCurrency: 'USD'
-    }
-  }}
-/>
-
-// Other Schema.org types are typed too
-<Schema
-  type="Movie"
-  data={{
-    name: 'The Matrix',
-    director: {
-      '@type': 'Person',
-      name: 'The Wachowskis'
-    }
-  }}
-/>
-
-// Use SchemaData when defining data separately
-const courseData = {
-  name: 'Introduction to TypeScript',
-  provider: { '@type': 'Organization', name: 'Example University' }
-} satisfies SchemaData<'Course'>
-
-<Schema type="Course" data={courseData} />
-```
-
-`Graph` renders a JSON-LD `@graph` document.
+<!-- quickstart:start -->
 
 ```tsx
-import { Graph, type GraphData } from 'react-structured'
+import { Schema } from 'react-structured'
 
-const graphData = {
-  '@graph': [
-    {
-      '@type': 'Person',
-      '@id': 'https://example.com/#person',
-      name: 'Jane Doe'
-    },
-    {
-      '@type': 'WebSite',
-      '@id': 'https://example.com/#website',
-      name: 'Example',
-      publisher: { '@id': 'https://example.com/#person' }
-    }
-  ]
-} satisfies GraphData
-
-<Graph data={graphData} />
-```
-
-`JsonLd` renders a complete JSON-LD document when you want to provide `@context` yourself.
-
-```tsx
-import { JsonLd, type JsonLdData } from 'react-structured'
-
-const personData = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Jane Doe'
-} satisfies JsonLdData
-
-<JsonLd id="person-jsonld" nonce={nonce} data={personData} />
-```
-
-Rich-result helpers are available for common Google Search targets. They use the same `schema-dts` data model and add development-time warnings for Google-required fields where Google defines them.
-
-```tsx
-import { BreadcrumbJsonLd, ProductJsonLd } from 'react-structured'
-
-<ProductJsonLd
-  data={{
-    name: 'Product Name',
-    offers: {
-      '@type': 'Offer',
-      price: '29.99',
-      priceCurrency: 'USD'
-    }
-  }}
-/>
-
-<BreadcrumbJsonLd
-  data={{
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://example.com'
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Products',
-        item: 'https://example.com/products'
-      }
-    ]
-  }}
-/>
-```
-
-## Supported Schema Types
-
-### Full schema-dts Support
-
-This package uses [`schema-dts`](https://github.com/google/schema-dts) to derive TypeScript definitions for Schema.org types and JSON-LD graph documents.
-
-- `Schema` supports every Schema.org `Thing` type represented by `schema-dts`.
-- `Graph` supports `schema-dts` JSON-LD `Graph` documents.
-- `JsonLd` supports complete `WithContext<Thing>` and `Graph` JSON-LD documents.
-- The generated JSON-LD always includes `@context: "https://schema.org"`.
-
-That means TypeScript will:
-
-- Autocomplete Schema.org type names such as `Article`, `Product`, `Movie`, and `Course`
-- Check that `data` is valid for the provided `type`
-- Allow top-level `@type` to be omitted because the component sets it
-- Require top-level `@type` to match the `type` prop if you include it
-- Check that graph nodes are valid Schema.org `Thing` objects
-
-Common structured data types include:
-
-- `Article`
-- `BlogPosting`
-- `BreadcrumbList`
-- `Event`
-- `FAQPage`
-- `LocalBusiness`
-- `Organization`
-- `Person`
-- `Product`
-- `Recipe`
-- `Review`
-- `VideoObject`
-- `WebPage`
-- `WebSite`
-
-The same typing works for other Schema.org types:
-
-```tsx
-import { Schema, type SchemaData } from 'react-structured'
-
-<Schema
-  type="SoftwareApplication"
-  data={{
-    name: 'Example App',
-    applicationCategory: 'DeveloperApplication',
-    operatingSystem: 'Web'
-  }}
-/>
-
-const bookData = {
-  name: 'Example Book',
-  author: { '@type': 'Person', name: 'Jane Doe' }
-} satisfies SchemaData<'Book'>
-
-<Schema type="Book" data={bookData} />
-```
-
-This keeps the components flexible while preserving type safety for Schema.org types represented by `schema-dts`.
-
-## How It Fits with next-meta and next-seo
-
-`react-structured` is not a full SEO/meta-tag framework. It focuses on type-safe JSON-LD structured data.
-
-Use [`next-meta`](https://github.com/ryanhefner/next-meta) for titles, canonical
-URLs, Open Graph metadata, and social cards. Use `react-structured` alongside it
-for Schema.org JSON-LD. The packages remain independent, and their combined peer
-dependency range requires React 16.14 or newer.
-
-Use `react-structured` when you want:
-
-- React JSON-LD components without a Next.js peer dependency
-- Broad Schema.org coverage through `schema-dts`
-- Direct control over JSON-LD data and `@graph` relationships
-- Structured data in React, Vite, Remix, Astro islands, Next.js, or another React environment
-
-Current `next-seo` releases also focus on JSON-LD and direct users to Next.js's
-native Metadata API for standard metadata. Choose `react-structured` when you
-prefer exhaustive `schema-dts` coverage and framework-independent components;
-choose `next-seo` when its curated JSON-LD component API better matches the
-project. Avoid rendering the same entity through both JSON-LD libraries on one
-page.
-
-## Component API
-
-All rendering components accept these script options:
-
-- `id`: `id` attribute for the rendered script tag. Use a stable,
-  document-unique value for inspection and testing.
-- `nonce`: CSP nonce attribute
-- `scriptKey`: React key applied to the rendered script tag
-- `validate`: Enables development-time Google rich-result warnings. Defaults to `true`.
-
-React reserves the `key` prop for the component instance. Use React's `key` normally when rendering lists of components, and use `scriptKey` only when the underlying `<script>` element needs its own key.
-
-Pass a nonce directly when the application's Content Security Policy requires
-one:
-
-```tsx
-<Schema
-  id="organization-jsonld"
-  nonce={nonce}
-  type="Organization"
-  data={{ name: 'Example Organization' }}
-/>
-```
-
-The `id` provides stable DOM identity but does not deduplicate scripts by itself.
-Render each entity once and keep IDs unique within the document.
-
-### Schema
-
-Renders Schema.org structured data as JSON-LD with exhaustive type safety.
-
-**Props:**
-
-- `type` (required): The Schema.org type (e.g., `Article`, `Product`, `Movie`)
-- `data` (required): The schema data object conforming to the specified type
-
-The component automatically:
-
-- Sets `@context` to `https://schema.org`
-- Sets `@type` to the value of the `type` prop
-- Escapes JSON-LD script content before rendering
-- Renders the data as a JSON-LD script tag
-
-### Graph
-
-Renders a Schema.org JSON-LD `@graph` document.
-
-**Props:**
-
-- `data` (required): A `GraphData` object with an `@graph` array of Schema.org `Thing` nodes
-
-The component automatically:
-
-- Sets `@context` to `https://schema.org`
-- Renders `@graph` using the nodes provided in `data`
-- Escapes JSON-LD script content before rendering
-- Renders the graph as a JSON-LD script tag
-
-### JsonLd
-
-Renders a complete JSON-LD document.
-
-**Props:**
-
-- `data` (required): A `JsonLdData` document, either `WithContext<Thing>` or `SchemaGraph`
-
-Use this when you already have a complete JSON-LD object and do not want `Schema` or `Graph` to manage `@context`.
-
-### Rich-result helpers
-
-These helpers wrap `Schema` for common Google Search structured data targets:
-
-- `ArticleJsonLd`
-- `BreadcrumbJsonLd`
-- `FAQJsonLd`
-- `OrganizationJsonLd`
-- `ProductJsonLd`
-
-They preserve the same `schema-dts` data shape while making intent clearer. In development, `ProductJsonLd`, `BreadcrumbJsonLd`, and `FAQJsonLd` warn when Google-required rich-result fields are missing. `ArticleJsonLd` and `OrganizationJsonLd` do not warn for required fields because Google's current documentation lists no required properties for those features.
-
-## Next.js
-
-`react-structured` does not depend on Next.js, but it works in both App Router and Pages Router.
-
-### App Router
-
-```tsx
-// app/products/[slug]/page.tsx
-import type { Metadata } from 'next'
-import { ProductJsonLd } from 'react-structured'
-
-const PRODUCT_URL = 'https://example.com/products/example'
-const PRODUCT_IMAGE = 'https://example.com/products/example/social.jpg'
-
-export const metadata: Metadata = {
-  title: 'Product Name',
-  alternates: { canonical: PRODUCT_URL },
-  openGraph: {
-    url: PRODUCT_URL,
-    images: [PRODUCT_IMAGE],
-  },
-}
-
-export default function ProductPage() {
+export default function AboutPage() {
   return (
-    <>
-      <ProductJsonLd
-        id="product-jsonld"
+    <main>
+      <Schema
+        id="organization-jsonld"
+        type="Organization"
         data={{
-          name: 'Product Name',
-          image: PRODUCT_IMAGE,
-          url: PRODUCT_URL,
-          offers: {
-            '@type': 'Offer',
-            price: '29.99',
-            priceCurrency: 'USD',
-          },
+          name: 'Acme Studio',
+          url: 'https://example.com',
         }}
       />
-      <main>{/* page content */}</main>
-    </>
+      <h1>About Acme Studio</h1>
+      <p>We build useful software.</p>
+    </main>
   )
 }
 ```
 
-Next.js recommends rendering JSON-LD scripts in a page or layout component.
-JSON-LD is not part of the native Metadata object. Reuse the same absolute
-canonical and media URLs in both outputs so they cannot disagree.
+<!-- quickstart:end -->
 
-### Pages Router
+`Schema` emits an `application/ld+json` script with `@context` and the selected `@type`. It does not render visible content or fetch data. Inspect the initial HTML or rendered DOM to verify the script, and validate the data for your intended search feature. Valid Schema.org markup does not guarantee a search engine will show rich results.
 
-When using next-meta, render its metadata component and the structured-data
-component as siblings. Do not nest a react-structured component inside
-`PageMeta` or `next/head`: Next.js requires scripts inside `Head` to be direct
-children, and JSON-LD is valid in the document body.
+## Choose the right component
 
-```tsx
-// pages/products/[slug].tsx
-import { PageMeta } from 'next-meta'
-import { ProductJsonLd } from 'react-structured'
+| Component           | Use it for                                                                                  | Guide                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `Schema`            | One Schema.org entity with inferred `SchemaData<'Type'>`                                    | [Typed schema examples](https://react-structured.dev/docs/schema)     |
+| `Graph`             | Related entities connected by stable `@id` references                                       | [Graph documents](https://react-structured.dev/docs/graph)            |
+| `JsonLd`            | A complete document that already includes `@context`                                        | [Raw JSON-LD](https://react-structured.dev/docs/json-ld)              |
+| Rich-result helpers | `ArticleJsonLd`, `BreadcrumbJsonLd`, `FAQJsonLd`, `OrganizationJsonLd`, and `ProductJsonLd` | [Rich-result helpers](https://react-structured.dev/docs/rich-results) |
 
-const PRODUCT_URL = 'https://example.com/products/example'
-const PRODUCT_IMAGE = 'https://example.com/products/example/social.jpg'
+`Schema` supports every Schema.org `Thing` type represented by `schema-dts`; `Graph` supports its JSON-LD graph documents. TypeScript checks the selected data shape and any explicit top-level `@type`. Use `SchemaData`, `GraphData`, or `JsonLdData` when defining reusable data outside JSX.
 
-export default function ProductPage({ nonce }) {
-  return (
-    <>
-      <PageMeta
-        title="Product Name"
-        canonical={PRODUCT_URL}
-        url={PRODUCT_URL}
-        images={[{ url: PRODUCT_IMAGE }]}
-      />
-      <ProductJsonLd
-        id="product-jsonld"
-        nonce={nonce}
-        data={{
-          name: 'Product Name',
-          image: PRODUCT_IMAGE,
-          url: PRODUCT_URL,
-          offers: {
-            '@type': 'Offer',
-            price: '29.99',
-            priceCurrency: 'USD',
-          },
-        }}
-      />
-      <main>{/* page content */}</main>
-    </>
-  )
-}
-```
+Development-time warnings highlight missing fields for selected rich-result helpers. They are guidance, not a complete validator or a promise of eligibility. See the [API reference](https://react-structured.dev/docs/reference) for props and behavior.
 
-## Type Safety
+## Next.js and metadata
 
-All schema types are fully typed with TypeScript:
+Next.js App Router pages and layouts can render these components directly on the server; a client boundary is not required. With Pages Router, render them alongside page content. Do not nest a react-structured component inside `next/head` or a `PageMeta` component.
 
-- `type` is limited to Schema.org type names from `schema-dts`
-- `data` is inferred from the selected `type`
-- Top-level `@type` is optional, but must match when present
-- `GraphData` is typed from `schema-dts` and requires graph nodes to be Schema.org `Thing` objects
-- rich-result helpers add development warnings for Google-required fields
+Use [`next-meta`](https://next-meta.dev) or native Next.js metadata for titles, canonical URLs, Open Graph, and social cards. Use react-structured alongside it for JSON-LD. Reuse the same absolute canonical and media URLs in both outputs, and avoid emitting the same entity twice.
 
-The components enforce type safety, so invalid schema data is caught during development. This helps keep structured data aligned to Schema.org specifications.
+Follow the [Next.js guide](https://react-structured.dev/docs/nextjs) for complete App Router and Pages Router examples. Other React applications need no Next.js package.
 
-## Coverage
+## Safety and script options
 
-Coverage is generated with Vitest and uploaded to Codecov from GitHub Actions.
+All rendering components accept `id`, `nonce`, `scriptKey`, and `validate`:
 
-```sh
-pnpm run test:ci
-```
+- Use a document-unique `id` to inspect the script. IDs do not deduplicate scripts; render each entity once.
+- Pass your application's CSP `nonce` when required. The library does not generate or distribute nonces.
+- React reserves `key` for component identity. `scriptKey` controls the underlying script's React key, not its DOM ID.
+- `validate` controls development-time rich-result warnings and defaults to `true`.
 
-## Examples
+The library escapes JSON-LD script content, including `</script>` sequences. Escaping prevents script breakout; it does not establish that user-supplied data is accurate or appropriate to publish. Model the visible page honestly, keep private data out of JSON-LD, and read the [security guide](https://react-structured.dev/docs/security).
 
-See the test files for more examples of how to use each schema type and helper component.
+## Help and contributing
 
-The documentation site lives in [`docs`](docs/README.md) and is prepared for
-`https://react-structured.dev`. Run `pnpm run docs:dev` to preview it locally.
+[Open an issue](https://github.com/ryanhefner/react-structured/issues), browse the [documentation](https://react-structured.dev), or see the [source and tests](https://github.com/ryanhefner/react-structured/tree/main/src). Report security concerns privately to the [maintainer](mailto:hi@ryanhefner.com) rather than a public issue.
 
 ## Development
 
-Use Node 24.18.0 and pnpm 11.25.0 for repository development. The development
-runtime pin does not change the library's React peer compatibility.
+Repository development uses the pinned Node 24 and pnpm versions. These pins do not change the library's React peer compatibility or require consumers to use pnpm.
 
 ```sh
 nvm use
@@ -449,5 +98,10 @@ pnpm run verify
 pnpm run build
 ```
 
-Publishing still uses npm for Trusted Publishing; pnpm manages dependencies and
-development tasks. Consumer installation commands above remain valid with npm.
+The documentation site is published at [react-structured.dev](https://react-structured.dev). Run `pnpm run docs:dev` locally; see [docs development and deployment](docs/README.md) for the independent site checks and Vercel configuration. Package verification intentionally does not require docs workspace dependencies.
+
+Coverage is generated with `pnpm run test:ci`. Publishing uses npm trusted publishing; package publishing and documentation deployment remain separate operations.
+
+## License
+
+[MIT](LICENSE)

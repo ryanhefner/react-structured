@@ -67,6 +67,13 @@ pnpm run docs:verify
 pnpm run docs:release-check
 ```
 
+`docs:verify` also serves the generated static artifact on a temporary loopback
+port and checks real HTTP GET/HEAD responses, canonical metadata, JSON-LD,
+crawler and LLM files, Markdown, and missing-page status codes. Run
+`pnpm run docs:smoke` separately after an existing build. This validates the
+artifact and clean-URL hosting contract; it does not inspect Vercel dashboard
+settings or replace a post-deployment smoke check.
+
 Deploy `docs/out` to `react-structured.dev`. For Vercel, use `docs` as the project
 root; `vercel.json` checks public dependencies, installs the workspace, and builds
 the library before the site. Keep the Framework Preset set to **Next.js** and the

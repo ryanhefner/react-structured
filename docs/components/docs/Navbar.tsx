@@ -36,7 +36,7 @@ export function Navbar({ records }: { records: readonly DocsSearchRecord[] }) {
               react-structured
             </SiteLink>
             <Box as="span" css={styles.version}>
-              v0.2.0
+              v0.2.1
             </Box>
           </Flex>
           <Flex align="center" gap={2} minW={0}>
